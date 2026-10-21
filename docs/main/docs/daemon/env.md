@@ -56,7 +56,7 @@ A variable set to an empty value (e.g. `MOSAICOD_STORE_BUCKET=`) is treated as u
 
 ## DBMS
 
-- <Link id="mosaicod-db-url" />`MOSAICOD_DB_URL`: Database connection URL, without credentials (e.g. `postgresql://host:port/dbname`). Use `MOSAICOD_DB_USER` and `MOSAICOD_DB_PASSWORD` to provide credentials. **Required**.
+- <Link id="mosaicod-db-url" />`MOSAICOD_DB_URL`: Database connection URL, without credentials (e.g. `postgresql://host:port/dbname`). Use `MOSAICOD_DB_USER` and `MOSAICOD_DB_PASSWORD` to provide credentials. TLS is configured through the standard PostgreSQL query parameters of the URL: `sslmode` (`disable`, `allow`, `prefer` (default), `require`, `verify-ca`, `verify-full`) and `sslrootcert` (path to a PEM file with the CA certificate(s) used to verify the server, needed for private CAs), e.g. `postgresql://host:5432/dbname?sslmode=verify-full&sslrootcert=/etc/mosaico/db-ca.pem`. Client certificates are supported via `sslcert` and `sslkey`. The `verify-ca` and `verify-full` modes reject a server certificate that is itself a CA (e.g. a bare self-signed certificate); use a server certificate issued by a CA and point `sslrootcert` at that CA. With `prefer`, a plain connection is used if the server does not offer TLS. **Required**.
 
 - <Link id="mosaicod-db-user" />`MOSAICOD_DB_USER`: Database user used to establish the connection. Default is an empty string, as some databases do not require a user to be specified.
 

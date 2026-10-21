@@ -191,6 +191,12 @@ The server supports S3-compatible object storage by default but can be configure
 
 Mosaico requires a connection to a running **PostgreSQL** instance, which is defined via the `MOSAICOD_DB_URL`, `MOSAICOD_DB_USER`, and `MOSAICOD_DB_PASSWORD` [environment variables](env.md#dbms).
 
+To connect over TLS, as required by most managed PostgreSQL services, add the `sslmode` parameter (and, for servers using a private CA, `sslrootcert`) to the URL:
+
+```bash
+MOSAICOD_DB_URL="postgresql://db.example.com:5432/mosaico?sslmode=verify-full&sslrootcert=/etc/mosaico/db-ca.pem"
+```
+
 ### Remote Storage Configuration
 
 For production deployments, `mosaicod` should be configured to use an S3-compatible object store (such as AWS S3, Google Cloud Storage, Hetzner Object Store, etc) for durable, long-term storage. This is configured setting the proper [environment variables](env/#store) for your object store provider.
