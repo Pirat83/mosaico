@@ -1,0 +1,16 @@
+# cargo-deny configuration: https://embarkstudios.github.io/cargo-deny/
+# Only the advisories check runs in CI (`.github/workflows/mosaicod-audit.yml`):
+#   cd mosaicod && cargo deny check advisories
+#
+# Every ignore needs a reason and is reviewed when its blocker is resolved.
+
+[advisories]
+ignore = [
+    # quick-xml 0.39 comes in through object_store 0.13 (datafusion and the S3 store).
+    # Fixing it needs object_store 0.14, tracked in #1096.
+    { id = "RUSTSEC-2026-0194", reason = "quick-xml via object_store 0.13; needs object_store 0.14 (#1096)" },
+    { id = "RUSTSEC-2026-0195", reason = "quick-xml via object_store 0.13; needs object_store 0.14 (#1096)" },
+    # Unmaintained, no known vulnerability.
+    { id = "RUSTSEC-2021-0141", reason = "dotenv is unmaintained; replacing it (e.g. with dotenvy) is a separate change" },
+    { id = "RUSTSEC-2026-0543", reason = "chrono is unmaintained; arrow and datafusion depend on it, no replacement yet" },
+]

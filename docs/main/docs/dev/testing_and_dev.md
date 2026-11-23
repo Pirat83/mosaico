@@ -104,6 +104,18 @@ cd mosaicod
 cargo lint
 ```
 
+### Dependency Advisories
+
+CI checks the whole dependency tree against the [RustSec advisory database](https://rustsec.org/) with [cargo-deny](https://embarkstudios.github.io/cargo-deny/), on every change to a `Cargo.toml`, `Cargo.lock` or `deny.toml` and once a week. To run the same check locally:
+
+```bash
+cargo install --locked cargo-deny
+cd mosaicod
+cargo deny check advisories
+```
+
+If an advisory can't be fixed yet, add it to `ignore` in `mosaicod/deny.toml`, with a reason that says what it is waiting for.
+
 ## Developing the Python SDK
 
 Install [uv](https://docs.astral.sh/uv/getting-started/installation/) 0.13.1 or newer, then set up the SDK with Python 3.10 or newer:

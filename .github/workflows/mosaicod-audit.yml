@@ -1,0 +1,37 @@
+name: mosaicod audit
+
+# RustSec advisories for mosaicod's whole dependency tree, including the crates
+# that other crates pull in. GitHub's Dependabot alerts don't cover RustSec-only advisories.
+on:
+  push:
+    branches: ["main"]
+    paths:
+      - "mosaicod/**/Cargo.toml"
+      - "mosaicod/Cargo.lock"
+      - "mosaicod/deny.toml"
+      - ".github/workflows/mosaicod-audit.yml"
+  pull_request:
+    branches: ["main"]
+    paths:
+      - "mosaicod/**/Cargo.toml"
+      - "mosaicod/Cargo.lock"
+      - "mosaicod/deny.toml"
+      - ".github/workflows/mosaicod-audit.yml"
+  # New advisories are published for unchanged lockfiles too
+  schedule:
+    - cron: "17 6 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  advisories:
+    name: "cargo deny: advisories"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: EmbarkStudios/cargo-deny-action@v2
+        with:
+          manifest-path: mosaicod/Cargo.toml
+          command: check advisories
